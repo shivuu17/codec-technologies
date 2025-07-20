@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>AI Chatbot</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f6f8;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .chat-container {
+      width: 400px;
+      max-height: 80vh;
+      background-color: #ffffff;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+    .chat-box {
+      flex: 1;
+      padding: 15px;
+      overflow-y: auto;
+      border-bottom: 1px solid #ddd;
+    }
+    .chat-message {
+      margin: 8px 0;
+    }
+    .user {
+      text-align: right;
+      color: #0a7;
+    }
+    .bot {
+      text-align: left;
+      color: #333;
+    }
+    form {
+      display: flex;
+      padding: 10px;
+      border-top: 1px solid #ddd;
+    }
+    input[type="text"] {
+      flex: 1;
+      padding: 10px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+    button {
+      margin-left: 10px;
+      padding: 10px 15px;
+      background-color: #0a7;
+      border: none;
+      color: #fff;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="chat-container">
+    <div class="chat-box" id="chat-box"></div>
+    <form id="chat-form">
+      <input type="text" id="user-input" placeholder="Type your message here..." autocomplete="off" required>
+      <button type="submit">Send</button>
+    </form>
+  </div>
+
+  <script>
+    const form = document.getElementById('chat-form');
+    const input = document.getElementById('user-input');
+    const chatBox = document.getElementById('chat-box');
+
+    function appendMessage(text, sender) {
+      const message = document.createElement('div');
+      message.classList.add('chat-message', sender);
+      message.innerText = text;
+      chatBox.appendChild(message);
+      chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const message = input.value.trim();
+      if (!message) return;
+
+      appendMessage("You: " + message, 'user');
+      input.value = "";
+
+      const response = await fetch('/get', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({ msg: message })
+      });
+
+      const data = await response.json();
+      appendMessage("Bot: " + data.reply, 'bot');
+    });
+
+    // Optional: Submit on Enter without form button
+    input.addEventListener('keypress', function (e) {
+      if (e.key === 'Enter') {
+        form.dispatchEvent(new Event('submit'));
+        e.preventDefault();
+      }
+    });
+  </script>
+</body>
+</html>

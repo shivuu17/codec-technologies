@@ -1,0 +1,29 @@
+{
+  "intents": [
+    {
+      "tag": "greeting",
+      "patterns": ["Hi", "Hello", "Is anyone there?", "Good day", "Hey"],
+      "responses": ["Hello!", "Hi there!", "Hi! How can I help you?"]
+    },
+    {
+      "tag": "goodbye",
+      "patterns": ["Bye", "See you later", "Goodbye"],
+      "responses": ["Goodbye!", "See you later!", "Have a nice day!"]
+    },
+    {
+      "tag": "thanks",
+      "patterns": ["Thanks", "Thank you", "That's helpful"],
+      "responses": ["You're welcome!", "Glad I could help!", "Anytime!"]
+    },
+    {
+      "tag": "age",
+      "patterns": ["How old are you?", "What is your age?"],
+      "responses": ["I'm a chatbot, I don’t age like humans."]
+    },
+    {
+      "tag": "creator",
+      "patterns": ["Who created you?", "Who made you?", "Who is your developer?"],
+      "responses": ["I was created by Shivank Katiyar!", "My developer is Shivank."]
+    }
+  ]
+}
